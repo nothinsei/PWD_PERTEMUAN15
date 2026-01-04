@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Pemrograman Web Dasar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .hasil {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+            display: none;
+        }
+        .hasil.show {
+            display: block;
+        }
+        .hasil p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- SOAL 1: Determinan -->
+    <div class="container">
+        <h2>Soal 1: Kalkulator Determinan</h2>
+        <p><strong>Rumus:</strong> Determinan = B × B - 4 × A × C</p>
+        
+        <label for="nilaiA">Masukkan nilai A:</label>
+        <input type="number" id="nilaiA" placeholder="Masukkan nilai A">
+        
+        <label for="nilaiB">Masukkan nilai B:</label>
+        <input type="number" id="nilaiB" placeholder="Masukkan nilai B">
+        
+        <label for="nilaiC">Masukkan nilai C:</label>
+        <input type="number" id="nilaiC" placeholder="Masukkan nilai C">
+        
+        <button onclick="hitungDeterminan()">Hitung Determinan</button>
+        
+        <div id="hasilDeterminan" class="hasil"></div>
+    </div>
+
+    <!-- SOAL 2: Pembelian Semen -->
+    <div class="container">
+        <h2>Soal 2: Program Pembelian Semen</h2>
+        
+        <label for="merkSemen">Merk Semen:</label>
+        <input type="text" id="merkSemen" placeholder="Contoh: Holcim">
+        
+        <label for="hargaSak">Harga per Sak (Rp):</label>
+        <input type="number" id="hargaSak" placeholder="Contoh: 65000">
+        
+        <label for="jumlahBeli">Jumlah Pembelian (Sak):</label>
+        <input type="number" id="jumlahBeli" placeholder="Contoh: 15">
+        
+        <button onclick="hitungPembelian()">Hitung Total Biaya</button>
+        
+        <div id="hasilPembelian" class="hasil"></div>
+    </div>
+
+    <script>
+        function hitungDeterminan() {
+            const a = parseFloat(document.getElementById('nilaiA').value);
+            const b = parseFloat(document.getElementById('nilaiB').value);
+            const c = parseFloat(document.getElementById('nilaiC').value);
+            
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                alert('Mohon isi semua nilai A, B, dan C!');
+                return;
+            }
+            
+            const determinan = (b * b) - (4 * a * c);
+            let keterangan = '';
+            let posisiKurva = '';
+            
+            if (determinan > 0) {
+                keterangan = 'lebih dari nol';
+                posisiKurva = 'di atas garis kurva';
+            } else if (determinan === 0) {
+                keterangan = 'sama dengan nol';
+                posisiKurva = 'berada di garis kurva';
+            } else {
+                keterangan = 'kurang dari nol';
+                posisiKurva = 'berada di bawah garis kurva';
+            }
+            
+            const hasilDiv = document.getElementById('hasilDeterminan');
+            hasilDiv.innerHTML = `
+                <h3>Hasil Perhitungan:</h3>
+                <p><strong>Nilai A:</strong> ${a}</p>
+                <p><strong>Nilai B:</strong> ${b}</p>
+                <p><strong>Nilai C:</strong> ${c}</p>
+                <p><strong>Determinan:</strong> ${b} × ${b} - 4 × ${a} × ${c} = ${determinan}</p>
+                <p><strong>Keterangan:</strong> Nilai determinan ${keterangan}</p>
+                <p><strong>Posisi:</strong> Kurva ${posisiKurva}</p>
+            `;
+            hasilDiv.classList.add('show');
+        }
+        
+        function hitungPembelian() {
+            const merk = document.getElementById('merkSemen').value;
+            const harga = parseFloat(document.getElementById('hargaSak').value);
+            const jumlah = parseFloat(document.getElementById('jumlahBeli').value);
+            
+            if (!merk || isNaN(harga) || isNaN(jumlah)) {
+                alert('Mohon isi semua data pembelian!');
+                return;
+            }
+            
+            let totalHarga = harga * jumlah;
+            let diskon = 0;
+            let totalBayar = totalHarga;
+            
+            if (jumlah < 10) {
+                totalBayar = totalHarga + 5000;
+            } else if (jumlah > 10) {
+                diskon = totalHarga * 0.05;
+                totalBayar = totalHarga - diskon;
+            }
+            
+            const hasilDiv = document.getElementById('hasilPembelian');
+            hasilDiv.innerHTML = `
+                <h3>Detail Pembelian:</h3>
+                <p><strong>Merk Semen:</strong> ${merk}</p>
+                <p><strong>Jumlah Pembelian:</strong> ${jumlah} Sak</p>
+                <p><strong>Harga per Sak:</strong> Rp ${harga.toLocaleString('id-ID')}</p>
+                <p><strong>Total Harga:</strong> Rp ${totalHarga.toLocaleString('id-ID')}</p>
+                ${jumlah < 10 ? `<p><strong>Biaya Pengiriman:</strong> Rp 5.000</p>` : ''}
+                ${jumlah > 10 ? `<p><strong>Diskon 5%:</strong> Rp ${diskon.toLocaleString('id-ID')}</p>` : ''}
+                <p style="font-size: 18px; color: #2e7d32;"><strong>Total Biaya yang Harus Dibayar:</strong> Rp ${totalBayar.toLocaleString('id-ID')}</p>
+            `;
+            hasilDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>
